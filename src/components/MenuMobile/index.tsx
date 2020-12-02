@@ -67,6 +67,13 @@ const MenuMobile: React.FC = () => {
           </button>
           <button
             type="button"
+            className={HandleRoute(false, '/brands')}
+            onClick={() => handlePage('/brands')}
+          >
+            Marcas
+          </button>
+          <button
+            type="button"
             className={HandleRoute(false, '/products')}
             onClick={() => handlePage('/products')}
           >

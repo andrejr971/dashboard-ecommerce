@@ -5,7 +5,7 @@ interface ContentProps {
 }
 
 export const Container = styled.div`
-  @media (min-width: 775px) {
+  @media (min-width: 875px) {
     display: none;
   }
 

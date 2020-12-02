@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
+import Brands from '../pages/Brands';
 import Categories from '../pages/Categories';
 import Dashboard from '../pages/Dashboard';
 import Products from '../pages/Products';
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
       <Route path="/" exact component={Dashboard} isPrivate />
       <Route path="/users" component={Users} isPrivate />
       <Route path="/categories" component={Categories} isPrivate />
+      <Route path="/brands" component={Brands} isPrivate />
 
       <Route path="/products" exact component={Products} isPrivate />
       <Route path="/products/:id" exact component={Products} isPrivate />

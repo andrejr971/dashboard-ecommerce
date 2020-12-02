@@ -61,6 +61,11 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li>
+              <Link to="/brands" className={HandleRoute(false, '/brands')}>
+                Marcas
+              </Link>
+            </li>
+            <li>
               <Link to="/products" className={HandleRoute(false, '/products')}>
                 Produtos
               </Link>

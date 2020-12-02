@@ -82,7 +82,7 @@ export const Profile = styled(Link)`
     opacity: 0.9;
   }
 
-  @media (max-width: 775px) {
+  @media (max-width: 875px) {
     strong {
       display: none;
     }
@@ -115,7 +115,7 @@ export const ButtonLogout = styled.button`
 
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 
-  @media (max-width: 775px) {
+  @media (max-width: 875px) {
     display: none;
     /* width: 50px;
     height: 50px;
@@ -180,7 +180,7 @@ export const Nav = styled.nav`
     }
   }
 
-  @media (max-width: 775px) {
+  @media (max-width: 875px) {
     display: none;
   }
 `;

@@ -1,40 +1,53 @@
-import React from 'react';
-import { FiX } from 'react-icons/fi';
-
-import { Container, Content, BackgroundContent } from './styles';
+import React, { useEffect, useState } from 'react';
+import ReactModal from 'react-modal';
 
 interface IModalProps {
-  title?: string;
-  visible: boolean;
-  setVisible(visible: boolean): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: any;
+  isOpen: boolean;
+  setIsOpen: () => void;
 }
 
-const Modal: React.FC<IModalProps> = ({
-  children,
-  visible,
-  setVisible,
-  title,
-}) => {
-  document.addEventListener('keyup', ({ code }) => {
-    if (code === 'Escape' && visible) {
-      setVisible(false);
-    }
-  });
+const Modal: React.FC<IModalProps> = ({ children, isOpen, setIsOpen }) => {
+  const [modalStatus, setModalStatus] = useState(isOpen);
+
+  useEffect(() => {
+    setModalStatus(isOpen);
+  }, [isOpen]);
 
   return (
-    <Container visible={visible}>
-      <BackgroundContent onClick={() => setVisible(false)} />
-      <Content>
-        <header>
-          {title && <h2>{title}</h2>}
-
-          <button type="button" onClick={() => setVisible(false)}>
-            <FiX />
-          </button>
-        </header>
-        {children}
-      </Content>
-    </Container>
+    <ReactModal
+      shouldCloseOnOverlayClick={!false}
+      onRequestClose={setIsOpen}
+      isOpen={modalStatus}
+      ariaHideApp={false}
+      style={{
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+          background: '#F0F0F5',
+          color: '#000000',
+          borderRadius: '20px',
+          width: '100%',
+          maxWidth: '700px',
+          height: 'auto',
+          maxHeight: '600px',
+          border: 'none',
+          overflowY: 'scroll',
+        },
+        overlay: {
+          top: 0,
+          zIndex: 9999999999999,
+          backgroundColor: '#121214e6',
+        },
+      }}
+    >
+      {children}
+    </ReactModal>
   );
 };
 

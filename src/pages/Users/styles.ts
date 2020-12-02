@@ -29,8 +29,11 @@ export const Container = styled.div`
 
       text-decoration: none;
 
+      span {
+        margin-right: 10px;
+      }
+
       svg {
-        margin-left: 10px;
         font-size: 20px;
       }
 

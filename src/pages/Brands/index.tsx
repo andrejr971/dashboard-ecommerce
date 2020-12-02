@@ -9,9 +9,9 @@ import { Container } from './styles';
 import ModalAdd from './ModalAdd';
 import ModalEdit from './ModalEdit';
 import ModalDelete from './ModalDelete';
-import { useCategory } from '../../hooks/categories';
+import { useBrand } from '../../hooks/brand';
 
-export interface ICategory {
+export interface IBrand {
   id: number;
   name: string;
   description: string;
@@ -24,12 +24,12 @@ export interface IRequest {
   description: string;
 }
 
-const Categories: React.FC = () => {
+const Brands: React.FC = () => {
   const { user } = useAuth();
   const {
-    categories,
+    brands,
     isVisibleModalDelete,
-    selectedCatgory,
+    selectedBrand,
     isVisibleModalEdit,
     isVisibleModalNew,
     handleModalVisibleAdd,
@@ -40,12 +40,12 @@ const Categories: React.FC = () => {
     handleSelectedDelete,
     handleSelectedUpate,
     handleUpdate,
-  } = useCategory();
+  } = useBrand();
 
   return (
     <Container>
       <header>
-        <h1>Categorias</h1>
+        <h1>Marcas</h1>
 
         <ContentRight>
           <SearchInput>
@@ -73,10 +73,10 @@ const Categories: React.FC = () => {
             </tr>
           </Thead>
           <tbody>
-            {categories.map(category => (
+            {brands.map(brand => (
               <LineTable
-                key={category.id}
-                category={category}
+                key={brand.id}
+                brand={brand}
                 handleSelectedDelete={handleSelectedDelete}
                 handleSelectedUpate={handleSelectedUpate}
               />
@@ -95,17 +95,17 @@ const Categories: React.FC = () => {
         handleAdd={handleUpdate}
         isOpen={isVisibleModalEdit}
         setIsOpen={handleModalVisibleEdit}
-        category={selectedCatgory}
+        brand={selectedBrand}
       />
 
       <ModalDelete
         handleDelete={handleDelete}
         isOpen={isVisibleModalDelete}
         setIsOpen={handleModalVisibleDelete}
-        category={selectedCatgory}
+        brand={selectedBrand}
       />
     </Container>
   );
 };
 
-export default Categories;
+export default Brands;
