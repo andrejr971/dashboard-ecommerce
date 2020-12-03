@@ -6,6 +6,7 @@ import Dashboard from '../pages/Dashboard';
 import Products from '../pages/Products';
 import Variations from '../pages/Products/Variations';
 import VariationAdd from '../pages/Products/Variations/VariationAdd';
+import VariationEdit from '../pages/Products/Variations/VariationEdit';
 import SignIn from '../pages/SignIn';
 import Users from '../pages/Users';
 import Route from './Routes';
@@ -35,7 +36,7 @@ const Routes: React.FC = () => {
       />
       <Route
         path="/products/:id/variations/:slug"
-        component={Products}
+        component={VariationEdit}
         isPrivate
       />
 

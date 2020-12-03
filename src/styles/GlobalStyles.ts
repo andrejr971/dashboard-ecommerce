@@ -1,4 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 
 export default createGlobalStyle`
 :root {

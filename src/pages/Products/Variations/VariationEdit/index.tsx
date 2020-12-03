@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import {
   FiAlertCircle,
@@ -46,9 +46,28 @@ interface IRequest {
 
 interface IParams {
   id: string;
+  slug: string;
 }
 
-const VariationAdd: React.FC = () => {
+interface IProduct {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  images: {
+    id: number;
+    image_url: string;
+  }[];
+  sizes: {
+    id: number;
+    size: string;
+    quantity: string;
+  }[];
+}
+
+const VariationEdit: React.FC = () => {
+  const [product, setProduct] = useState<IProduct>({} as IProduct);
   const [price, setPrice] = useState<string | undefined>('');
   const [error, setError] = useState('');
   const [slug, setSlug] = useState('');
@@ -58,12 +77,33 @@ const VariationAdd: React.FC = () => {
   const [image04, setImage04] = useState<File | undefined>();
   const [sizes, setSizes] = useState<ISize[]>([]);
 
-  const { id } = useParams<IParams>();
+  const { id, slug: nameSlug } = useParams<IParams>();
 
   const { addToast } = useToast();
 
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
+
+  const loadData = useCallback(async () => {
+    const response = await api.get(`product-variations/${nameSlug}`);
+
+    setProduct(response.data);
+    setPrice(response.data.price);
+    setSlug(response.data.slug);
+
+    const { sizes: arraySize } = response.data as IProduct;
+
+    setSizes(
+      arraySize.map(s => ({
+        size: s.size,
+        quantity: s.quantity,
+      })),
+    );
+  }, [nameSlug]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const handleGoBack = useCallback(() => {
     history.go(-1);
@@ -192,9 +232,9 @@ const VariationAdd: React.FC = () => {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit} ref={formRef}>
+      <Form onSubmit={handleSubmit} initialData={product} ref={formRef}>
         <header>
-          <h1>Nova variação</h1>
+          <h1>Editar variação</h1>
         </header>
 
         <Main>
@@ -243,10 +283,34 @@ const VariationAdd: React.FC = () => {
             />
 
             <ContentImges>
-              <InputImage onFileUploaded={setImage01} />
-              <InputImage onFileUploaded={setImage02} />
-              <InputImage onFileUploaded={setImage03} />
-              <InputImage onFileUploaded={setImage04} />
+              {product.images && (
+                <>
+                  <InputImage
+                    imageURL={
+                      product.images[0] ? product.images[0].image_url : ''
+                    }
+                    onFileUploaded={setImage01}
+                  />
+                  <InputImage
+                    imageURL={
+                      product.images[1] ? product.images[1].image_url : ''
+                    }
+                    onFileUploaded={setImage02}
+                  />
+                  <InputImage
+                    imageURL={
+                      product.images[2] ? product.images[2].image_url : ''
+                    }
+                    onFileUploaded={setImage03}
+                  />
+                  <InputImage
+                    imageURL={
+                      product.images[3] ? product.images[3].image_url : ''
+                    }
+                    onFileUploaded={setImage04}
+                  />
+                </>
+              )}
             </ContentImges>
 
             <InputSize handleAdd={handleAddSize} />
@@ -277,4 +341,4 @@ const VariationAdd: React.FC = () => {
   );
 };
 
-export default VariationAdd;
+export default VariationEdit;

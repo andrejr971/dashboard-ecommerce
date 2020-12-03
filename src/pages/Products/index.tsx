@@ -69,6 +69,22 @@ const Products: React.FC = () => {
     [history, addToast, handleVisible],
   );
 
+  const handleDelete = useCallback(
+    async (id: number) => {
+      await api.delete(`products/${id}`);
+
+      const filterProducts = products.filter(product => product.id !== id);
+
+      setProducts(filterProducts);
+
+      addToast({
+        type: 'success',
+        title: 'Sucesso ao deletar',
+      });
+    },
+    [products, addToast],
+  );
+
   return (
     <Container>
       <header>
@@ -99,7 +115,11 @@ const Products: React.FC = () => {
           </Thead>
           <tbody>
             {products.map(product => (
-              <LineTable key={product.id} product={product} />
+              <LineTable
+                key={product.id}
+                product={product}
+                handleDelete={handleDelete}
+              />
             ))}
           </tbody>
         </Table>

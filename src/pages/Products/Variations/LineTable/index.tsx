@@ -8,13 +8,10 @@ import { Container } from './styles';
 
 interface LineTableProps {
   variation: IVariations;
-  // handleSelectedUserDelete(id: number): void;
+  handleDelete(id: number): void;
 }
 
-const LineTable: React.FC<LineTableProps> = ({
-  variation,
-  // handleSelectedUserDelete,
-}) => {
+const LineTable: React.FC<LineTableProps> = ({ variation, handleDelete }) => {
   const { user } = useAuth();
 
   return (
@@ -33,7 +30,7 @@ const LineTable: React.FC<LineTableProps> = ({
             <FiEdit />
           </Link>
           {user.permission === '1' && (
-            <button type="button">
+            <button type="button" onClick={() => handleDelete(variation.id)}>
               <FiTrash />
             </button>
           )}

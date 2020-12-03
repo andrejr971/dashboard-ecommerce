@@ -4,6 +4,7 @@ import { FiPlus } from 'react-icons/fi';
 import { Link, useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
+import { useToast } from '../../../hooks/toast';
 
 import api from '../../../services/api';
 import LineTable from './LineTable';
@@ -47,6 +48,7 @@ const Variations: React.FC = () => {
   const [product, setProduct] = useState<IProductProps>({} as IProductProps);
   const [initialData, setInitialData] = useState<IRequest>({} as IRequest);
   const { id } = useParams<IParams>();
+  const { addToast } = useToast();
 
   const loadData = useCallback(async () => {
     const response = await api.get(`products/${id}`);
@@ -65,6 +67,39 @@ const Variations: React.FC = () => {
     loadData();
   }, [loadData]);
 
+  const handleSubmit = useCallback(
+    async (data: Omit<IRequest, 'category' | 'brand'>) => {
+      await api.put(`products/${id}`, data);
+
+      addToast({
+        type: 'success',
+        title: 'Atualizado com sucesso',
+      });
+    },
+    [id, addToast],
+  );
+
+  const handleDelete = useCallback(
+    async (variation_id: number) => {
+      await api.delete(`product-variations/${variation_id}`);
+
+      const filterProducts = {
+        ...product,
+        variations: product.variations.filter(
+          variation => variation.id !== variation_id,
+        ),
+      };
+
+      setProduct(filterProducts);
+
+      addToast({
+        type: 'success',
+        title: 'Sucesso ao deletar',
+      });
+    },
+    [product, addToast],
+  );
+
   return (
     <Container>
       <header>
@@ -79,7 +114,7 @@ const Variations: React.FC = () => {
       </header>
 
       <main>
-        <Form onSubmit={data => console.log(data)} initialData={initialData}>
+        <Form onSubmit={handleSubmit} initialData={initialData}>
           <Input name="name" placeholder="Nome" />
           <Input name="discount" placeholder="Desconto" />
 
@@ -98,7 +133,11 @@ const Variations: React.FC = () => {
           <tbody>
             {product.variations &&
               product.variations.map(variation => (
-                <LineTable key={variation.id} variation={variation} />
+                <LineTable
+                  key={variation.id}
+                  variation={variation}
+                  handleDelete={handleDelete}
+                />
               ))}
           </tbody>
         </Table>
