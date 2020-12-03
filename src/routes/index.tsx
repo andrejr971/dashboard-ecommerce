@@ -4,6 +4,8 @@ import Brands from '../pages/Brands';
 import Categories from '../pages/Categories';
 import Dashboard from '../pages/Dashboard';
 import Products from '../pages/Products';
+import Variations from '../pages/Products/Variations';
+import VariationAdd from '../pages/Products/Variations/VariationAdd';
 import SignIn from '../pages/SignIn';
 import Users from '../pages/Users';
 import Route from './Routes';
@@ -19,16 +21,20 @@ const Routes: React.FC = () => {
       <Route path="/brands" component={Brands} isPrivate />
 
       <Route path="/products" exact component={Products} isPrivate />
-      <Route path="/products/:id" exact component={Products} isPrivate />
       <Route
         path="/products/:id/variations"
         exact
-        component={Products}
+        component={Variations}
         isPrivate
       />
       <Route
-        path="/products/:id/variations/:id"
+        path="/products/:id/variations/create"
         exact
+        component={VariationAdd}
+        isPrivate
+      />
+      <Route
+        path="/products/:id/variations/:slug"
         component={Products}
         isPrivate
       />

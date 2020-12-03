@@ -15,7 +15,7 @@ export const Container = styled.div`
       font-size: 25px;
     }
 
-    button {
+    a {
       margin-left: 20px;
       background: var(--orange-dark);
       color: var(--gray-dark);
@@ -63,8 +63,33 @@ export const Container = styled.div`
 
   main {
     width: 100%;
-    max-width: 900px;
+    max-width: 700px;
     margin: 20px auto;
+
+    form {
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto;
+
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      button {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      > div {
+        flex: 1;
+      }
+
+      @media (max-width: 500px) {
+        button {
+          margin-top: 10px;
+        }
+      }
+    }
   }
 `;
 
@@ -107,6 +132,7 @@ export const SearchInput = styled.div`
 `;
 
 export const Table = styled.table`
+  margin-top: 10px;
   width: 100%;
   text-align: left;
   border-collapse: separate;
