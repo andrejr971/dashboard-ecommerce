@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://www.fernandoleonid.com.br/fatec/andre/api',
+  baseURL: 'https://vbeloti.xyz/projects/andre/',
 });
 
 export default api;
