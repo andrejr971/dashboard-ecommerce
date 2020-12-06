@@ -75,7 +75,14 @@ const Header: React.FC = () => {
 
         <Right>
           <Profile to="/profile">
-            <img src={user.avatar_url} alt={user.name} />
+            <img
+              src={
+                user.avatar_url
+                  ? user.avatar_url
+                  : `https://ui-avatars.com/api/?name=${user.name}&background=ffbf5a&color=1b1b1b&bold=true&format=svg&size=110`
+              }
+              alt={user.name}
+            />
 
             <strong>{user.name}</strong>
           </Profile>

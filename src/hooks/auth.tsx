@@ -20,11 +20,19 @@ interface IDataAuth {
   token: string;
 }
 
+export interface IRequestProfile extends IUser {
+  old_password: string;
+  password: string;
+  password_confirmation: string;
+}
+
 interface IAuthContextData {
   user: IUser;
   isLoading: boolean;
   signIn(data: IRequest): Promise<void>;
   signOut(): Promise<void>;
+  updateProfile(data: IRequestProfile): Promise<void>;
+  updateImage(file: File): Promise<void>;
 }
 
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
@@ -66,6 +74,66 @@ const AuthProvider: React.FC = ({ children }) => {
     }
   }, []);
 
+  const updateProfile = useCallback(
+    async (profile: IRequestProfile) => {
+      const {
+        old_password,
+        password,
+        password_confirmation,
+        name,
+        email,
+      } = profile;
+
+      const update = {
+        name,
+        email,
+      };
+
+      if (old_password) {
+        Object.assign(update, {
+          old_password,
+          password,
+          password_confirmation,
+        });
+      }
+
+      const response = await api.put(`profile`, update);
+
+      setData({
+        user: response.data,
+        token: data.token,
+      });
+
+      localStorage.setItem('@DashboardDreshoes:token', data.token);
+      localStorage.setItem(
+        '@DashboardDreshoes:user',
+        JSON.stringify(response.data),
+      );
+    },
+    [data],
+  );
+
+  const updateImage = useCallback(
+    async (file: File) => {
+      const dataFile = new FormData();
+      dataFile.append('file', file);
+
+      const response = await api.post(`profile/avatar`, dataFile);
+
+      setData({
+        user: response.data,
+        token: data.token,
+      });
+
+      localStorage.setItem('@DashboardDreshoes:token', data.token);
+      localStorage.setItem(
+        '@DashboardDreshoes:user',
+        JSON.stringify(response.data),
+      );
+    },
+    [data],
+  );
+
   const signOut = useCallback(async () => {
     setData({} as IDataAuth);
     localStorage.removeItem('@DashboardDreshoes:user');
@@ -78,6 +146,8 @@ const AuthProvider: React.FC = ({ children }) => {
         isLoading,
         signIn,
         signOut,
+        updateImage,
+        updateProfile,
       }}
     >
       {children}

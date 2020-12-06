@@ -7,6 +7,7 @@ import Products from '../pages/Products';
 import Variations from '../pages/Products/Variations';
 import VariationAdd from '../pages/Products/Variations/VariationAdd';
 import VariationEdit from '../pages/Products/Variations/VariationEdit';
+import Profile from '../pages/Profile';
 import SignIn from '../pages/SignIn';
 import Users from '../pages/Users';
 import Route from './Routes';
@@ -40,7 +41,7 @@ const Routes: React.FC = () => {
         isPrivate
       />
 
-      <Route path="/profile" exact component={Products} isPrivate />
+      <Route path="/profile" exact component={Profile} isPrivate />
     </Switch>
   );
 };

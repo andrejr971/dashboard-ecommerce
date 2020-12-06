@@ -71,10 +71,6 @@ const VariationEdit: React.FC = () => {
   const [price, setPrice] = useState<string | undefined>('');
   const [error, setError] = useState('');
   const [slug, setSlug] = useState('');
-  const [image01, setImage01] = useState<File | undefined>();
-  const [image02, setImage02] = useState<File | undefined>();
-  const [image03, setImage03] = useState<File | undefined>();
-  const [image04, setImage04] = useState<File | undefined>();
   const [sizes, setSizes] = useState<ISize[]>([]);
 
   const { id, slug: nameSlug } = useParams<IParams>();
@@ -130,6 +126,69 @@ const VariationEdit: React.FC = () => {
     [sizes],
   );
 
+  const handleImage01 = useCallback(
+    async (data: File) => {
+      const dataForm = new FormData();
+      dataForm.append('image', data);
+      if (product.images[0]) {
+        await api.post(
+          `product-variations/${product.id}/image/${product.images[0].id}`,
+          dataForm,
+        );
+      } else {
+        await api.post(`product-variations/${product.id}/image`, dataForm);
+      }
+    },
+    [product],
+  );
+
+  const handleImage02 = useCallback(
+    async (data: File) => {
+      const dataForm = new FormData();
+      dataForm.append('image', data);
+      if (product.images[1]) {
+        await api.post(
+          `product-variations/${product.id}/image/${product.images[1].id}`,
+          dataForm,
+        );
+      } else {
+        await api.post(`product-variations/${product.id}/image`, dataForm);
+      }
+    },
+    [product],
+  );
+
+  const handleImage03 = useCallback(
+    async (data: File) => {
+      const dataForm = new FormData();
+      dataForm.append('image', data);
+      if (product.images[2]) {
+        await api.post(
+          `product-variations/${product.id}/image/${product.images[2].id}`,
+          dataForm,
+        );
+      } else {
+        await api.post(`product-variations/${product.id}/image`, dataForm);
+      }
+    },
+    [product],
+  );
+  const handleImage04 = useCallback(
+    async (data: File) => {
+      const dataForm = new FormData();
+      dataForm.append('image', data);
+      if (product.images[3]) {
+        await api.post(
+          `product-variations/${product.id}/image/${product.images[3].id}`,
+          dataForm,
+        );
+      } else {
+        await api.post(`product-variations/${product.id}/image`, dataForm);
+      }
+    },
+    [product],
+  );
+
   const handleSubmit = useCallback(
     async (data: IRequest) => {
       try {
@@ -145,13 +204,13 @@ const VariationEdit: React.FC = () => {
           abortEarly: false,
         });
 
-        if (!image01) {
-          addToast({
-            type: 'error',
-            title: 'Pelo menos uma imagem é necessária',
-          });
-          return;
-        }
+        // if (!image01) {
+        //   addToast({
+        //     type: 'error',
+        //     title: 'Pelo menos uma imagem é necessária',
+        //   });
+        //   return;
+        // }
 
         if (!price) {
           setError('Preço é necessario');
@@ -172,17 +231,17 @@ const VariationEdit: React.FC = () => {
         dataForm.append('name', data.name);
         dataForm.append('slug', data.slug);
         dataForm.append('description', data.description);
-        dataForm.append('images0', image01);
+        // dataForm.append('images0', image01);
 
-        if (image02) {
-          dataForm.append('images1', image02);
-        }
-        if (image03) {
-          dataForm.append('images2', image03);
-        }
-        if (image04) {
-          dataForm.append('images3', image04);
-        }
+        // if (image02) {
+        //   dataForm.append('images1', image02);
+        // }
+        // if (image03) {
+        //   dataForm.append('images2', image03);
+        // }
+        // if (image04) {
+        //   dataForm.append('images3', image04);
+        // }
 
         let size = '';
         let quantity = '';
@@ -196,7 +255,7 @@ const VariationEdit: React.FC = () => {
         dataForm.append('quantity', quantity);
         dataForm.append('price', price?.toString().replace(/,/g, '.'));
 
-        await api.post(`product-variations/${id}`, dataForm);
+        await api.put(`product-variations/${id}`, dataForm);
 
         addToast({
           type: 'success',
@@ -217,17 +276,7 @@ const VariationEdit: React.FC = () => {
         });
       }
     },
-    [
-      addToast,
-      image01,
-      image02,
-      image03,
-      image04,
-      sizes,
-      id,
-      price,
-      handleGoBack,
-    ],
+    [addToast, sizes, id, price, handleGoBack],
   );
 
   return (
@@ -289,25 +338,25 @@ const VariationEdit: React.FC = () => {
                     imageURL={
                       product.images[0] ? product.images[0].image_url : ''
                     }
-                    onFileUploaded={setImage01}
+                    onFileUploaded={handleImage01}
                   />
                   <InputImage
                     imageURL={
                       product.images[1] ? product.images[1].image_url : ''
                     }
-                    onFileUploaded={setImage02}
+                    onFileUploaded={handleImage02}
                   />
                   <InputImage
                     imageURL={
                       product.images[2] ? product.images[2].image_url : ''
                     }
-                    onFileUploaded={setImage03}
+                    onFileUploaded={handleImage03}
                   />
                   <InputImage
                     imageURL={
                       product.images[3] ? product.images[3].image_url : ''
                     }
-                    onFileUploaded={setImage04}
+                    onFileUploaded={handleImage04}
                   />
                 </>
               )}
