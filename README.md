@@ -37,10 +37,6 @@ Link para o [backend](https://github.com/andrejr971/ecommerce-php)
 
 ---
 <p align="center">
-  <img alt="image" src=".github/capa.png" width="100%">
-</p>
-
-<p align="center">
   <img alt="image" src=".github/screen01.png" width="100%">
 </p>
 <p align="center">
