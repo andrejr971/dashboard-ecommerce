@@ -255,11 +255,18 @@ const VariationEdit: React.FC = () => {
         dataForm.append('quantity', quantity);
         dataForm.append('price', price?.toString().replace(/,/g, '.'));
 
-        await api.put(`product-variations/${id}`, dataForm);
+        await api.put(`product-variations/${id}`, {
+          name: data.name,
+          slug: data.slug,
+          description: data.description,
+          sizes: size,
+          quantity,
+          price: price?.toString().replace(/,/g, '.'),
+        });
 
         addToast({
           type: 'success',
-          title: 'Sucesso ao cadastrar',
+          title: 'Sucesso ao atualizar',
         });
 
         handleGoBack();
